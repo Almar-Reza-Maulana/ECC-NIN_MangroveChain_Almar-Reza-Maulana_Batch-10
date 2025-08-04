@@ -1,4 +1,6 @@
+![img](https://github.com/Almar-Reza-Maulana/ECC-NIN_MangroveChain_Almar-Reza-Maulana_Batch-10/blob/main/Mangrove%20in%20the%20water.jpg)
 # MangroveChain: Platform Analisis Konservasi Mangrove Berbasis Blockchain
+
 MangroveChain adalah sebuah sistem analisis inovatif yang menggabungkan teknologi blockchain dengan upaya konservasi mangrove di seluruh Indonesia. Platform ini dirancang untuk memberikan wawasan mendalam terhadap 30 proyek konservasi yang tersebar dari Aceh hingga Papua, dengan melacak kepatuhan regulasi, dampak biodiversitas, tingkat keterlibatan masyarakat, hingga transaksi kredit karbon yang tercatat dalam ledger blockchain yang tidak dapat diubah (immutable).
 
 Dengan mengintegrasikan 14 dimensi data termasuk pemantauan lingkungan, catatan kepemilikan lahan, sumber pendanaan, dan transaksi smart contract MangroveChain menciptakan pandangan komprehensif untuk mengukur efektivitas dan transparansi setiap upaya konservasi.
