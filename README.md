@@ -481,8 +481,6 @@ Data yang telah diskor dan diklasifikasikan kemudian dipetakan untuk memberikan 
 
 Peta berikut dibuat menggunakan Plotly dan menampilkan setiap proyek sebagai sebuah titik. Warna titik merepresentasikan tingkat risiko (Tinggi, Sedang, Rendah), dan ukuran titik merepresentasikan skor risiko tambahan (misalnya, dampak ekologis). Peta ini interaktif, memungkinkan pengguna untuk hover di setiap titik untuk melihat detail lebih lanjut.
 
-(Karena ini adalah file Markdown statis, Anda bisa menempatkan screenshot dari peta interaktif di sini, atau menyertakan tautan ke file HTML-nya.)
-
 *Peta Interaktif dapat dilihat di sini:* [peta_risiko_konservasi.html](./peta_risiko_konservasi.html)
 
 *b. Kode Analisis Python (studi_kasus4.ipynb)*
