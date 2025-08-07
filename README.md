@@ -32,3 +32,7 @@ Untuk menjawab permasalahan yang telah diidentifikasi, maka penelitian dan penge
 3. Bagaimana membangun model prediktif yang dapat meramalkan keberhasilan jangka panjang sebuah proyek konservasi berdasarkan faktor-faktor keterlibatan masyarakat (frekuensi kegiatan, distribusi manfaat, tingkat partisipasi) dalam 6 bulan pertama?
 4. Bagaimana mengembangkan sistem skoring risiko multi-dimensi untuk mengklasifikasikan dan memetakan proyek berdasarkan kombinasi faktor risiko hukum, sosial, dan lingkungan?
 5. Bagaimana pola distribusi tipe data, level akses, dan aktivitas on-chain dapat dianalisis untuk mengoptimalkan arsitektur jaringan blockchain dan desain smart contract dalam ekosistem konservasi mangrove?
+
+# BAB 2: PEMBAHASAN 🧠
+
+
