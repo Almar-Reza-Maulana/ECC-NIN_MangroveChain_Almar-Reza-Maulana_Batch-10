@@ -36,4 +36,104 @@ Untuk menjawab permasalahan yang telah diidentifikasi, maka penelitian dan penge
 # BAB 2: Analisis dan Pembahasan Studi Kasus
 Bab ini menyajikan hasil analisis yang dilakukan oleh platform MangroveChain untuk menjawab serangkaian pertanyaan kunci dari para pemangku kepentingan. Pembahasan ini menunjukkan bagaimana integrasi data multi-dimensi pada ledger blockchain dapat menghasilkan wawasan yang mendalam dan dapat ditindaklanjuti.
 
+## 2.1 Analisis Efektivitas Regulasi & Dampak Biodiversitas
+Analisis ini bertujuan untuk menjawab pertanyaan kunci mengenai hubungan antara kerangka regulasi dan hasil ekologis. Alur kerja ini dimulai dari pengambilan dan agregasi data menggunakan SQL di database PostgreSQL, yang kemudian diekspor untuk dianalisis lebih lanjut menggunakan Python dan divisualisasikan dalam bentuk heatmap.
+
+#### *1. Pengambilan Data dan Wawasan Awal dari Database (PostgreSQL)*
+Data untuk analisis ini bersumber dari database PostgreSQL yang mengintegrasikan data dari beberapa tabel relasional.
+*a. SQL Query untuk Ekstraksi Data Analisis*
+
+Query berikut digunakan untuk menggabungkan data dari tabel regulatory_permits, land_tenure_records, dan biodiversity_monitoring. Hasil dari query ini diekspor menjadi file conservation_db.csv yang kemudian digunakan oleh skrip Python untuk analisis korelasi. Query ini juga melakukan transformasi pada kolom kualitas_air dari teks menjadi nilai numerik untuk analisis statistik.
+
+```sql
+-- Query ini mengambil data mentah yang telah digabungkan untuk analisis di Python
+SELECT
+    rp.permit_status,
+    ltr.land_type,
+    ltr.boundary_defined,
+    bm.species_count,
+    bm.tree_density,
+    CASE
+       WHEN bm.water_quality = 'Poor' THEN 1
+       WHEN bm.water_quality = 'Moderate' THEN 2
+       WHEN bm.water_quality = 'Good' THEN 3
+    ELSE 0
+    END AS kualitas_air
+FROM regulatory_permits rp
+JOIN land_tenure_records ltr ON rp.conservation_id = ltr.conservation_id
+JOIN biodiversity_monitoring bm ON rp.conservation_id = bm.conservation_id;
+```
+*b. SQL Query untuk Wawasan Awal (Agregasi)*
+
+Sebelum melakukan analisis korelasi mendalam, query agregasi sederhana dapat memberikan wawasan tingkat tinggi secara langsung dari database untuk menguji hipotesis awal.
+
+*Hasil Query Agregasi (Contoh):*
+
+| Status_Izin | Rataan_Kualitas_Air | Rataan_Kerapatan_Pohon | Jumlah_Proyek |
+|:---|:---:|:---:|:---:|
+| Approved | 2.10 | 1255.5 | 20 |
+| Pending | 2.35 | 875.0 | 10 |
+
+Hasil agregasi ini memberikan indikasi awal bahwa proyek dengan status izin *'Approved'* memiliki *rataan kerapatan pohon yang jauh lebih tinggi* dibandingkan yang berstatus *'Pending'*, yang mendukung hipotesis awal.
+
+#### *2. Analisis Korelasi Mendalam (Python)*
+
+Data yang diekspor dari SQL (conservation_db.csv) selanjutnya dianalisis menggunakan Python untuk memvisualisasikan korelasi secara lebih detail.
+
+*a. Kode Analisis Python 
+Kode Python berikut telah diperbarui untuk memfilter matriks korelasi, sehingga hanya menampilkan hubungan antara dua kelompok variabel yang relevan dan menghasilkan visualisasi yang lebih fokus di atas.
+
+```python
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import LabelEncoder
+
+# 1. Baca file CSV
+# Ganti path ini sesuai dengan lokasi file di repositori Anda
+df = pd.read_csv("conservation_db.csv")
+
+# 2. Encode kolom kategorikal
+label_cols = ['permit_status', 'land_type', 'boundary_defined', 'kualitas_air']
+for col in label_cols:
+    if df[col].dtype == 'object':
+        le = LabelEncoder()
+        df[col] = le.fit_transform(df[col])
+
+# Ganti nama kolom 'kualitas_air' ke 'water_quality' untuk konsistensi
+df.rename(columns={'kualitas_air': 'water_quality'}, inplace=True)
+
+# 3. Hitung matriks korelasi
+corr_matrix = df.corr(numeric_only=True)
+
+# 4. Pilih hanya kolom dan baris yang relevan
+biodiv_cols = ['species_count', 'tree_density', 'water_quality']
+regulatory_cols = ['permit_status', 'land_type', 'boundary_defined']
+
+# Subset matriks untuk fokus pada korelasi yang diinginkan
+filtered_corr = corr_matrix.loc[regulatory_cols, biodiv_cols]
+
+# 5. Buat heatmap
+plt.figure(figsize=(8, 6))
+sns.heatmap(filtered_corr, annot=True, cmap="coolwarm", vmin=-1, vmax=1, center=0)
+plt.title("Correlation: Regulatory Factors vs Biodiversity Metrics")
+plt.tight_layout()
+plt.savefig("filtered_mangrove_correlation_heatmap.png")
+plt.close()```
+```
+*Hasil dan Temuan (Berdasarkan Heatmap Fokus):*
+
+Analisis korelasi yang terfokus ini memberikan wawasan yang lebih jernih:
+
+1.  **Pengaruh Status Izin (permit_status):**
+    *   Faktor ini menunjukkan korelasi positif terkuat dengan **kerapatan pohon (tree_density)** dengan koefisien *+0.2*. Ini mengindikasikan bahwa status izin yang disetujui cenderung sejalan dengan kerapatan mangrove yang lebih tinggi, meskipun hubungannya tidak sangat kuat.
+    *   Korelasinya dengan jumlah spesies (species_count) sangat lemah (+0.058), sedangkan dengan kualitas air (water_quality) menunjukkan korelasi negatif lemah (-0.14).
+
+2.  **Pengaruh Tipe Lahan (land_type):**
+    *   Tipe lahan memiliki korelasi negatif dengan *kerapatan pohon* (-0.2*) dan **jumlah spesies* (-0.095**). Hal ini bisa berarti bahwa tipe lahan tertentu (yang mungkin di-encode sebagai nilai numerik yang lebih tinggi) memiliki hasil biodiversitas yang lebih rendah, atau sebaliknya. Temuan ini memerlukan investigasi lebih lanjut mengenai jenis-jenis lahan yang ada.
+
+3.  **Pengaruh Kejelasan Batas (boundary_defined):**
+    *   Kejelasan batas lahan menunjukkan korelasi positif di semua metrik biodiversitas, meskipun lemah. Korelasi tertinggi adalah dengan *kualitas air* (+0.13**). Ini menyiratkan bahwa adanya batas yang jelas secara hukum memberikan dampak positif kecil namun konsisten terhadap kondisi ekologis.
+
+
 
