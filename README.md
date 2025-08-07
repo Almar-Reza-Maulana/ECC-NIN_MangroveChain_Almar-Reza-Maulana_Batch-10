@@ -33,6 +33,7 @@ Untuk menjawab permasalahan yang telah diidentifikasi, maka penelitian dan penge
 4. Bagaimana mengembangkan sistem skoring risiko multi-dimensi untuk mengklasifikasikan dan memetakan proyek berdasarkan kombinasi faktor risiko hukum, sosial, dan lingkungan?
 5. Bagaimana pola distribusi tipe data, level akses, dan aktivitas on-chain dapat dianalisis untuk mengoptimalkan arsitektur jaringan blockchain dan desain smart contract dalam ekosistem konservasi mangrove?
 
-# BAB 2: PEMBAHASAN 🧠
+# BAB 2: Analisis dan Pembahasan Studi Kasus
+Bab ini menyajikan hasil analisis yang dilakukan oleh platform MangroveChain untuk menjawab serangkaian pertanyaan kunci dari para pemangku kepentingan. Pembahasan ini menunjukkan bagaimana integrasi data multi-dimensi pada ledger blockchain dapat menghasilkan wawasan yang mendalam dan dapat ditindaklanjuti.
 
 
