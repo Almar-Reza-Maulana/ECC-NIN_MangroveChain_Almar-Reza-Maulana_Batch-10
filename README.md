@@ -342,7 +342,7 @@ ORDER BY pn.Engagement_Date;
 ```
 Hasil dari query ini diekspor menjadi file 3. Query 1.csv untuk dianalisis lebih lanjut.
 
-#### *2. Analisis Prediktif dan Forecasting (Python)*
+### *2. Analisis Prediktif dan Forecasting (Python)*
 
 Data historis partisipasi masyarakat dari 3. Query 1.csv digunakan untuk membangun model time series ARIMA. Model ini bertujuan untuk memprediksi tren tingkat partisipasi di masa depan.
 
@@ -350,11 +350,10 @@ Data historis partisipasi masyarakat dari 3. Query 1.csv digunakan untuk membang
 
 Grafik berikut menampilkan data historis partisipasi relatif bulanan (garis biru) dan hasil forecasting untuk 6 bulan ke depan (garis merah putus-putus) menggunakan model ARIMA.
 
-
 *b. Kode Analisis Python (untuk Forecasting)*
 
 Catatan: Kode berikut adalah representasi konseptual dari proses yang dilakukan untuk menghasilkan visualisasi di atas.
-python
+```python
 import pandas as pd
 from statsmodels.tsa.arima.model import ARIMA
 import matplotlib.pyplot as plt
@@ -390,9 +389,9 @@ plt.show()
 # Cetak hasil prediksi
 print("Prediksi Partisipasi Relatif untuk 6 Bulan ke Depan:")
 print(forecast)
+```
 
-
-#### *3. Hasil dan Implikasi Manajerial*
+### *3. Hasil dan Implikasi Manajerial*
 
 *a. Wawasan dari Data Historis:*
 Data historis menunjukkan *volatilitas yang tinggi* dalam partisipasi masyarakat, dengan puncak dan lembah yang signifikan. Ini menandakan bahwa keterlibatan masyarakat bersifat dinamis dan dipengaruhi oleh berbagai faktor temporal (misalnya, musim, jadwal kegiatan, atau distribusi manfaat).
